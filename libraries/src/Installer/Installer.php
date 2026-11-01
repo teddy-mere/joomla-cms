@@ -2537,6 +2537,9 @@ class Installer implements DatabaseAwareInterface
     {
         $name = strtolower($name);
 
+        // This fallback is required because Joomla 5's UpdateModel::finaliseUpgrade()
+        // still runs in memory during a 5 -> 6 CLI upgrade and calls setAdapter()
+        // with a single argument.
         if ($adapter === null) {
             if (isset($this->adapters[$name])) {
                 return true;
